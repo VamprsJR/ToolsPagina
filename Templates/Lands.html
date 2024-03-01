@@ -1,0 +1,68 @@
+{%extends "layout.html" %}
+{%block content%}
+
+    <button id="btnRandom" onclick="cambiarNumeros()">Random</button>
+
+    <div id="contenedorIframes" class="contenedor-iframe">
+        <!-- Aquí se agregarán los iframes dinámicamente -->
+    </div>
+
+    <script>
+        // Función para generar un nuevo iframe con número aleatorio
+        function generarIframe(codigo) {
+            const contenedorIframes = document.getElementById('contenedorIframes');
+
+            // Crear un nuevo contenedor para el iframe y la barra de edición
+            const iframeContainer = document.createElement('div');
+            iframeContainer.className = 'iframe-container';
+
+            // Crear un nuevo iframe
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://play.pixels.xyz/pixels/share/${codigo}`;
+            iframe.frameBorder = 0;
+            iframe.scrolling = 'no';
+
+            // Agregar el iframe al contenedor
+            iframeContainer.appendChild(iframe);
+
+            // Crear una barra de edición para el número
+            const editor = document.createElement('input');
+            editor.type = 'text';
+            editor.value = codigo;
+            editor.className = 'iframe-editor';
+            editor.addEventListener('change', function () {
+                // Actualizar el número en el iframe en tiempo real
+                iframe.src = `https://play.pixels.xyz/pixels/share/${this.value}`;
+            });
+
+            // Agregar la barra de edición debajo del iframe
+            iframeContainer.appendChild(editor);
+
+            // Agregar el contenedor al contenedor principal
+            contenedorIframes.appendChild(iframeContainer);
+        }
+
+        // Función para cambiar aleatoriamente los números de todos los iframes
+        function cambiarNumeros() {
+            const contenedorIframes = document.getElementById('contenedorIframes');
+
+            // Eliminar todos los iframes y barras de edición actuales
+            contenedorIframes.innerHTML = '';
+
+            // Generar nuevos iframes con códigos aleatorios
+            for (let i = 0; i < 6; i++) {
+                const codigo = Math.floor(Math.random() * 5000) + 1;
+                generarIframe(codigo);
+            }
+        }
+
+        // Ejemplo: Generar iframes con códigos aleatorios al cargar la página
+        cambiarNumeros();
+    </script>
+
+
+
+
+
+
+{%endblock%}
